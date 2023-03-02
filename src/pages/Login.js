@@ -26,7 +26,7 @@ function Login() {
         />
       </label>
       <button
-        disabled={ password.length < authPass || !regexEmail.test(email) }
+        disabled={ password.length <= authPass || !regexEmail.test(email) }
         data-testid="login-submit-btn"
         type="button"
         onClick={
