@@ -1,0 +1,10 @@
+.footer{
+  border-top: 1px solid #333;
+  bottom: 0px;
+  left: 0;
+  height: 40px;
+  position: fixed;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
