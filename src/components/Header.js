@@ -18,6 +18,7 @@ export default function Header({ title, searchIcon = true }) {
     <div>
       <h1 data-testid="page-title">{ title }</h1>
       <button
+        data-testid="button-profile"
         type="button"
         onClick={ () => history.push('/profile') }
       >
@@ -29,6 +30,7 @@ export default function Header({ title, searchIcon = true }) {
       </button>
       { isVisSearchIcon && (
         <button
+          data-testid="button-search"
           type="button"
           onClick={ () => setIsVisibleSearchBar(!isVisibleSearchBar) }
         >
