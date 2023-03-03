@@ -7,8 +7,9 @@ function Profile() {
   const [data, setData] = useState('');
   useEffect(() => {
     const getData = JSON.parse(localStorage.getItem('user'));
-    if (typeof getData !== 'object') return history.push('/');
+    if (!getData) return history.push('/');
     setData(getData);
+    console.log(getData);
   }, []);
 
   const logout = () => {
@@ -16,11 +17,10 @@ function Profile() {
     history.push('/');
   };
 
-  const { email } = data;
   return (
     <div>
       <h1>Profile</h1>
-      <p data-testid="profile-email">{email}</p>
+      <p data-testid="profile-email">{data?.email}</p>
       <button
         onClick={ () => history.push('/done-recipes') }
         data-testid="profile-done-btn"
