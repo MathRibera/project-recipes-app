@@ -1,11 +1,49 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 
 function Profile() {
+  const history = useHistory();
+  const [data, setData] = useState('');
+  useEffect(() => {
+    const getData = JSON.parse(localStorage.getItem('user'));
+    if (!getData) return history.push('/');
+    setData(getData);
+    console.log(getData);
+  }, []);
+
+  const logout = () => {
+    localStorage.clear();
+    history.push('/');
+  };
+
   return (
     <div>
       <Header title="Profile" searchIcon={ false } />
+
+      <h1>Profile</h1>
+      <p data-testid="profile-email">{data?.email}</p>
+      <button
+        onClick={ () => history.push('/done-recipes') }
+        data-testid="profile-done-btn"
+      >
+        Done Recipes
+      </button>
+      <button
+        onClick={ () => history.push('/favorite-recipes') }
+        data-testid="profile-favorite-btn"
+      >
+        Favorite Recipes
+
+      </button>
+      <button
+        onClick={ logout }
+        data-testid="profile-logout-btn"
+      >
+        Logout
+
+      </button>
       <Footer />
     </div>
   );
