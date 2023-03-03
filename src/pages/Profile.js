@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Footer from '../components/Footer';
+import Header from '../components/Header';
 
 function Profile() {
   const history = useHistory();
   const [data, setData] = useState('');
   useEffect(() => {
     const getData = JSON.parse(localStorage.getItem('user'));
-    if (!getData) return history.push('/');
+    // if (!getData) return history.push('/');
     setData(getData);
-    console.log(getData);
-  }, []);
+  }, [history]);
 
   const logout = () => {
     localStorage.clear();
@@ -19,7 +19,8 @@ function Profile() {
 
   return (
     <div>
-      <h1>Profile</h1>
+      <Header title="Profile" searchIcon={ false } />
+
       <p data-testid="profile-email">{data?.email}</p>
       <button
         onClick={ () => history.push('/done-recipes') }
