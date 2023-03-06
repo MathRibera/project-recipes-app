@@ -6,15 +6,20 @@ import Login from './pages/Login';
 import Recipes from './pages/Recipes';
 import Profile from './pages/Profile';
 import Drinks from './pages/Drinks';
+import MyProvider from './context/MyProvider';
 
 function App() {
   return (
-    <Switch>
-      <Route exact path="/" component={ Login } />
-      <Route path="/meals" component={ Recipes } />
-      <Route path="/profile" component={ Profile } />
-      <Route path="/drinks" component={ Drinks } />
-    </Switch>
+    <MyProvider>
+      <Switch>
+        <Route exact path="/" component={ Login } />
+        <Route path="/meals" component={ Recipes } />
+        <Route path="/drinks" component={ Drinks } />
+        <Route path="/meals/:id-da-receita" />
+        <Route path="/drinks/:id-da-receita" />
+        <Route path="/profile" component={ Profile } />
+      </Switch>
+    </MyProvider>
   );
 }
 
