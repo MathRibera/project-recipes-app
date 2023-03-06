@@ -10,6 +10,7 @@ function MyProvider({ children }) {
   const [recipes, setRecipes] = useState([]);
   const [mealsData, setMealsData] = useState([]);
   const [drinksData, setDrinksData] = useState([]);
+  const [filterName, setFilterName] = useState('');
 
   const value = useMemo(() => ({
     mealsData,
@@ -22,6 +23,8 @@ function MyProvider({ children }) {
     urlCategoryMeals,
     recipes,
     setRecipes,
+    filterName,
+    setFilterName,
   }), [mealsData, drinksData, setRecipes, recipes]);
 
   return (

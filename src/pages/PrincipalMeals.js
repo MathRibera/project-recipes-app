@@ -6,7 +6,8 @@ function PrincipalMeals() {
   const history = useHistory();
 
   const { urlMeals, urlDrinks, urlCategoryDrinks,
-    urlCategoryMeals, recipes, setRecipes } = useContext(MyContext);
+    urlCategoryMeals, recipes, setRecipes,
+    filterName, setFilterName } = useContext(MyContext);
   // const [recipes, setRecipes] = useState([]);
   const [categories, setCategories] = useState([]);
   const { location: { pathname } } = history;
@@ -80,8 +81,10 @@ function PrincipalMeals() {
 
   const buttonFilter = (event) => {
     const { target } = event;
-    const { value } = target;
-    if (pathname === '/meals') {
+    const { value, name } = target;
+    // console.log(name);
+    if (filterName !== name) {
+      setFilterName(name);
       fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${value}`)
         .then((response) => response.json())
         .then((data) => {
@@ -93,16 +96,7 @@ function PrincipalMeals() {
           setRecipes(filteredMeals);
         });
     } else {
-      fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${value}`)
-        .then((response) => response.json())
-        .then((data) => {
-          const filteredDrinks = data.drinks
-            .map(({ strDrinkThumb, strDrink, idDrink: id }) => ({ strDrinkThumb,
-              strDrink,
-              id }))
-            .filter((drink, index) => index < tweelve);
-          setRecipes(filteredDrinks);
-        });
+      fetchApiMeals();
     }
   };
 
@@ -127,6 +121,7 @@ function PrincipalMeals() {
               data-testid={ `${category.strCategory}-category-filter` }
               key={ `${index}` }
               value={ category.strCategory }
+              name={ category.strCategory }
               onClick={ (event) => buttonFilter(event) }
             >
               { category.strCategory }
@@ -143,8 +138,7 @@ function PrincipalMeals() {
       </div>
       <div>
         { pathname === '/meals' ? recipes.map((recipe, index) => (
-
-          <Link to={ `/meals/${recipe.idMeal}` } key={ index }>
+          <Link to={ `/meals/${recipe.id}` } key={ index }>
             <div
               data-testid={ `${index}-recipe-card` }
             >
@@ -159,7 +153,7 @@ function PrincipalMeals() {
         ))
           : recipes.map((recipe, index) => (
           // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-            <Link to={ `/drinks/${recipe.idDrink}` } key={ index }>
+            <Link to={ `/drinks/${recipe.id}` } key={ index }>
               <div
                 data-testid={ `${index}-recipe-card` }
                 // onClick={ () => recipesDetails(recipe.id) }
