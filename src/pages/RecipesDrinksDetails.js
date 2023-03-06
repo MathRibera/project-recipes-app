@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
+import styles from './Carroussel.module.css';
 
 function RecipesDrinksDetails(props) {
   const [drinks, setDrinks] = useState([]);
+  const [recommends, setRecommend] = useState([]);
   const { match } = props;
   const { params: { id } } = match;
   useEffect(() => {
@@ -11,6 +13,16 @@ function RecipesDrinksDetails(props) {
       const response = await fetch(url);
       const json = await response.json();
       setDrinks(json.drinks[0]);
+    };
+    fetchApi();
+  }, [id]);
+  useEffect(() => {
+    const fetchApi = async () => {
+      const six = 6;
+      const url2 = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+      const response2 = await fetch(url2);
+      const json2 = await response2.json();
+      setRecommend(json2.meals.slice(0, six));
     };
     fetchApi();
   }, []);
@@ -61,6 +73,7 @@ function RecipesDrinksDetails(props) {
   const linkYoutube = drinks.strYoutube;
   const newMeasures = measures.filter((e) => typeof e === 'string' && e.length);
   const newRecipes = recipies.filter((e) => typeof e === 'string' && e.length);
+  // recommend.map((e) => console.log(e));
   return (
     <div>
       <div>
@@ -108,7 +121,23 @@ function RecipesDrinksDetails(props) {
           </div>
         </div>
       )}
+      <div
+        className={ styles.carroussel }
+      >
+        {recommends.map((e, index) => (
+          <div data-testid={ `${index}-recommendation-card` } key={ index }>
+            <img src={ e.strMealThumb } width="100px" alt={ e.idMeal } />
+            <p data-testid={ `${index}-recommendation-title` }>{e.strMeal}</p>
+          </div>
+        ))}
+      </div>
+      <button
+        className={ styles.button }
+        data-testid="start-recipe-btn"
+      >
+        Start Recipe
 
+      </button>
     </div>
   );
 }

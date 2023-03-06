@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
+import styles from './Carroussel.module.css';
 
 function RecipesMealsDetails(props) {
   const [recipe, setRecipe] = useState([]);
+  const [recommends, setRecommends] = useState([]);
   const { match } = props;
   const {
     params: { id },
@@ -11,11 +13,19 @@ function RecipesMealsDetails(props) {
   useEffect(() => {
     const fetchApi = async () => {
       const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
+      const url2 = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
       const response = await fetch(url);
+      const response2 = await fetch(url2);
       const json = await response.json();
+      const json2 = await response2.json();
+      const six = 6;
       setRecipe(json.meals[0]);
+      setRecommends(json2.drinks.slice(0, six));
+    };
+    const fetchApiDrinks = async () => {
     };
     fetchApi();
+    fetchApiDrinks();
   }, []);
 
   const recipies = [
@@ -65,7 +75,7 @@ function RecipesMealsDetails(props) {
   const linkYoutube = recipe.strYoutube;
   const newMeasures = measures.filter((e) => typeof e === 'string' && e.length);
   const newRecipes = recipies.filter((e) => typeof e === 'string' && e.length);
-  console.log(newMeasures);
+  console.log(recommends);
   return (
     <div>
       <div>
@@ -107,7 +117,24 @@ function RecipesMealsDetails(props) {
           )}
         </div>
       </div>
+      <div
+        className={ styles.carroussel }
+      >
+        {recommends.map((e, index) => (
+          <div data-testid={ `${index}-recommendation-card` } key={ index }>
+            <img src={ e.strDrinkThumb } width="100px" alt={ e.idDrink } />
+            <p data-testid={ `${index}-recommendation-title` }>{e.strDrink}</p>
+          </div>
+        ))}
+      </div>
       <div />
+      <button
+        className={ styles.button }
+        data-testid="start-recipe-btn"
+      >
+        Start Recipe
+
+      </button>
     </div>
   );
 }
