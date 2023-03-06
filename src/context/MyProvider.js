@@ -26,9 +26,6 @@ function MyProvider({ children }) {
     <MyContext.Provider
       value={ value }
     >
-
-      return (
-
       {children}
     </MyContext.Provider>
   );
