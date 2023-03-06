@@ -27,7 +27,6 @@ function App() {
         <Route path="/drinks/:id-da-receita/in-progress" component={ RecipeInProgress } />
         <Route exact path="/done-recipes" component={ DoneRecipes } />
         <Route exact path="/favorite-recipes" component={ FavoriteRecipes } />
-
       </Switch>
     </MyProvider>
   );

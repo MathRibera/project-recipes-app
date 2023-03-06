@@ -7,7 +7,7 @@ function MyProvider({ children }) {
   const urlDrinks = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
   const urlCategoryMeals = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
   const urlCategoryDrinks = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
-  // const [recipes, setRecipes] = useState([]);
+  const [recipes, setRecipes] = useState([]);
   const [mealsData, setMealsData] = useState([]);
   const [drinksData, setDrinksData] = useState([]);
 
@@ -20,7 +20,9 @@ function MyProvider({ children }) {
     urlDrinks,
     urlCategoryDrinks,
     urlCategoryMeals,
-  }), [mealsData, drinksData]);
+    recipes,
+    setRecipes,
+  }), [mealsData, drinksData, setRecipes, recipes]);
 
   return (
     <MyContext.Provider
