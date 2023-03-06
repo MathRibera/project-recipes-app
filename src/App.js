@@ -13,7 +13,6 @@ import MyProvider from './context/MyProvider';
 import RecipeDetails from './pages/RecipeDetails';
 import RecipeInProgress from './pages/RecipeInProgress';
 
-
 function App() {
   return (
     <MyProvider>

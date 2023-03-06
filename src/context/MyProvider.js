@@ -10,8 +10,8 @@ function MyProvider({ children }) {
   // const [recipes, setRecipes] = useState([]);
   const [mealsData, setMealsData] = useState([]);
   const [drinksData, setDrinksData] = useState([]);
-  
-   const value = useMemo(() => ({
+
+  const value = useMemo(() => ({
     mealsData,
     setMealsData,
     drinksData,
@@ -27,7 +27,7 @@ function MyProvider({ children }) {
       value={ value }
     >
 
-  return (
+      return (
 
       {children}
     </MyContext.Provider>

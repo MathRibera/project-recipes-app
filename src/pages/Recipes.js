@@ -135,7 +135,7 @@ function Recipes(props) {
       <div>
         <Header title="Meals" />
         <RecipsCards />
-       <div/>
+      </div>
       <div>
         {
           categories && categories.map((category, index) => (
@@ -164,7 +164,6 @@ function Recipes(props) {
           <div
             key={ index }
             data-testid={ `${index}-recipe-card` }
-            // onClick={ () => recipesDetails(recipe.id) }
           >
             <img
               data-testid={ `${index}-card-img` }
