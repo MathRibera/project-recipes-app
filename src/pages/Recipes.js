@@ -3,6 +3,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import propTypes from 'prop-types';
 import Footer from '../components/Footer';
 import MyContext from '../context/Mycontext';
+import Header from '../components/Header';
+import RecipsCards from '../components/RecipsCards';
 
 function Recipes(props) {
   const { urlMeals, urlDrinks, urlCategoryDrinks,
@@ -131,6 +133,10 @@ function Recipes(props) {
   return (
     <div>
       <div>
+        <Header title="Meals" />
+        <RecipsCards />
+       <div/>
+      <div>
         {
           categories && categories.map((category, index) => (
             <button
@@ -183,6 +189,7 @@ function Recipes(props) {
               <p data-testid={ `${index}-card-name` }>{ recipe.strDrink }</p>
             </div>))}
       </div>
+
       <Footer />
     </div>
   );
