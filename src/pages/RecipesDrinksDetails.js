@@ -1,3 +1,4 @@
+import clipboardCopy from 'clipboard-copy';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -139,7 +140,7 @@ function RecipesDrinksDetails(props) {
         type="button"
         data-testid="share-btn"
         onClick={ async () => {
-          navigator.clipboard.writeText(`localhost:3000${path}`);
+          await clipboardCopy(`http://localhost:3000${path}`);
           setSucessCopy(true);
         } }
       >
