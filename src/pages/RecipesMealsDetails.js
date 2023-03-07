@@ -6,6 +6,7 @@ import styles from './Carroussel.module.css';
 
 function RecipesMealsDetails(props) {
   const [sucessCopy, setSucessCopy] = useState(false);
+  const [heart, setHeart] = useState(false);
   const history = useHistory();
   const [recipe, setRecipe] = useState([]);
   const [recommends, setRecommends] = useState([]);
@@ -31,7 +32,7 @@ function RecipesMealsDetails(props) {
     };
     fetchApi();
     fetchApiDrinks();
-  }, []);
+  }, [id]);
 
   const recipies = [
     recipe.strIngredient1,
@@ -80,7 +81,36 @@ function RecipesMealsDetails(props) {
   const linkYoutube = recipe.strYoutube;
   const newMeasures = measures.filter((e) => typeof e === 'string' && e.length);
   const newRecipes = recipies.filter((e) => typeof e === 'string' && e.length);
-  console.log(recommends);
+  console.log(recipe);
+  const favorites = () => {
+    const getFavorites = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    let data = getFavorites;
+    if (!getFavorites || getFavorites.length === 0) {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([]));
+      data = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    }
+    if (data.some((e) => e.id === recipe.idMeal)) setHeart(true);
+    if (!data.some((e) => e.id === recipe.idMeal)) {
+      const obj = {
+        id: recipe.idMeal,
+        type: 'meal',
+        nationality: recipe.strArea || '',
+        category: recipe.strCategory,
+        alcoholicOrNot: recipe.strAlcoholic || '',
+        name: recipe.strMeal,
+        image: recipe.strMealThumb,
+      };
+      const newData = [...data, obj];
+      setHeart(true);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(newData));
+    }
+  };
+  const disfavor = () => {
+    const getData = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    const newData = getData.filter((e) => e.id !== id);
+    setHeart(false);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(newData));
+  };
   return (
     <div>
       <div>
@@ -144,10 +174,11 @@ function RecipesMealsDetails(props) {
         <img src="../images/shareIcon.svg" alt="" />
       </button>
       <button
+        onClick={ !heart ? favorites : disfavor }
         type="button"
         data-testid="favorite-btn"
       >
-        Favorite
+        {!heart ? 'Favorite' : (<img src="../images/whiteHeartIcon.svg" alt="" />)}
       </button>
       {sucessCopy && (<p>Link copied!</p>)}
       <button

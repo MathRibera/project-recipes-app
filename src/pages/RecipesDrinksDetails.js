@@ -6,6 +6,7 @@ import styles from './Carroussel.module.css';
 
 function RecipesDrinksDetails(props) {
   const [sucessCopy, setSucessCopy] = useState(false);
+  const [heart, setHeart] = useState(false);
   const history = useHistory();
   const [drinks, setDrinks] = useState([]);
   const [recommends, setRecommend] = useState([]);
@@ -78,7 +79,37 @@ function RecipesDrinksDetails(props) {
   const linkYoutube = drinks.strYoutube;
   const newMeasures = measures.filter((e) => typeof e === 'string' && e.length);
   const newRecipes = recipies.filter((e) => typeof e === 'string' && e.length);
-  // recommend.map((e) => console.log(e));
+  console.log(recommends);
+  console.log(drinks);
+  const favorites = () => {
+    const getFavorites = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    let data = getFavorites;
+    if (!getFavorites || getFavorites.length === 0) {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([]));
+      data = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    }
+    if (data.some((e) => e.id === drinks.idDrink)) setHeart(true);
+    if (!data.some((e) => e.id === drinks.idDrink)) {
+      const obj = {
+        id: drinks.idDrink,
+        type: 'drink',
+        nationality: drinks.strArea || '',
+        category: drinks.strCategory,
+        alcoholicOrNot: drinks.strAlcoholic || '',
+        name: drinks.strDrink,
+        image: drinks.strDrinkThumb,
+      };
+      const newData = [...data, obj];
+      setHeart(true);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(newData));
+    }
+  };
+  const disfavor = () => {
+    const getData = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    const newData = getData.filter((e) => e.id !== id);
+    setHeart(false);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(newData));
+  };
   return (
     <div>
       <div>
@@ -149,8 +180,9 @@ function RecipesDrinksDetails(props) {
       <button
         type="button"
         data-testid="favorite-btn"
+        onClick={ !heart ? favorites : disfavor }
       >
-        Favorite
+        {!heart ? 'Favorite' : (<img src="../images/whiteHeartIcon.svg" alt="heart" />)}
       </button>
       {sucessCopy && (<p>Link copied!</p>)}
       <button
