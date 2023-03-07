@@ -5,44 +5,59 @@ import MyContext from '../context/Mycontext';
 export default function SearchBar() {
   const [captureInput, setCaptureInput] = useState('');
   const [radioButton, setRadioButton] = useState('ingredient');
-  const { setMealsData, setDrinksData } = useContext(MyContext);
+  const { setRecipes } = useContext(MyContext);
   const history = useHistory();
+
+  const test = (response) => {
+    if (response.drinks === null) {
+      return global
+        .alert('Sorry, we haven\'t found any recipes for these filters.');
+    }
+    if (response.drinks.length === 1) {
+      return history.push(`/drinks/${response.drinks[0].idDrink}`);
+    }
+    const twelve = 12;
+    setRecipes(response.drinks.slice(0, twelve));
+  };
 
   const apiConnection = async (input) => {
     if (history.location.pathname === '/meals') {
       let url = '';
       if (radioButton === 'ingredient') {
         url = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${input}`;
-      }
-      if (radioButton === 'byName') {
+      } else if (radioButton === 'byName') {
         url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${input}`;
-      }
-      if (radioButton === 'firstLetter') {
+      } else {
         url = `https://www.themealdb.com/api/json/v1/1/search.php?f=${input}`;
       }
       const response = await (await fetch(url)).json();
-      setMealsData(response);
+      if (response.meals === null) {
+        return global
+          .alert('Sorry, we haven\'t found any recipes for these filters.');
+      }
+      if (response.meals.length === 1) {
+        return history.push(`/meals/${response.meals[0].idMeal}`);
+      }
+      const twelve = 12;
+      setRecipes(response.meals.slice(0, twelve));
     }
     if (history.location.pathname === '/drinks') {
       let url = '';
       if (radioButton === 'ingredient') {
         url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${input}`;
-      }
-      if (radioButton === 'byName') {
+      } else if (radioButton === 'byName') {
         url = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${input}`;
-      }
-      if (radioButton === 'firstLetter') {
+      } else {
         url = `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${input}`;
       }
       const response = await (await fetch(url)).json();
-      setDrinksData(response);
+      test(response);
     }
   };
 
   const handleChange = ({ target }) => {
     if (target.value.length > 1 && radioButton === 'firstLetter') {
-      return global
-        .alert('Your search must have only 1 (one) character');
+      return global.alert('Your search must have only 1 (one) character');
     }
     setCaptureInput(target.value);
   };
