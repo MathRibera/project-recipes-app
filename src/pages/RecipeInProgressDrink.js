@@ -14,7 +14,7 @@ function RecipeInProgressDrink() {
       setDrink(json.drinks[0]);
     };
     fetchApi();
-  }, []);
+  }, [id]);
   // const recipies = [
   //   drink.strIngredient1,
   //   drink.strIngredient2,
