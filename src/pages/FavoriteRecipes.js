@@ -14,6 +14,7 @@ export default function FavoriteRecipes() {
     setShowMeals(JSON.parse(getData).filter((e) => e.type === 'meal'));
     setShowDrinks(JSON.parse(getData).filter((e) => e.type === 'drink'));
   }, []);
+
   return (
     <div>
       <Header title="Favorite Recipes" searchIcon={ false } />
