@@ -1,24 +1,34 @@
 import clipboardCopy from 'clipboard-copy';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import styles from './Carroussel.module.css';
 
-function RecipesDrinksDetails(props) {
+function RecipesDrinksDetails() {
   const [sucessCopy, setSucessCopy] = useState(false);
   const [heart, setHeart] = useState(false);
   const history = useHistory();
   const [drinks, setDrinks] = useState([]);
   const [recommends, setRecommend] = useState([]);
-  const { match } = props;
-  const { params: { id } } = match;
+  const { id } = useParams();
   const path = history.location.pathname;
+
+  const loadFavorite = () => {
+    const getFavorites = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    let data = getFavorites;
+    if (!getFavorites || getFavorites.length === 0) {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([]));
+      data = [];
+    }
+    setHeart(data.some((e) => e.id === id));
+  };
   useEffect(() => {
     const fetchApi = async () => {
       const url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
       const response = await fetch(url);
       const json = await response.json();
       setDrinks(json.drinks[0]);
+      loadFavorite();
     };
     fetchApi();
   }, [id]);
@@ -79,8 +89,6 @@ function RecipesDrinksDetails(props) {
   const linkYoutube = drinks.strYoutube;
   const newMeasures = measures.filter((e) => typeof e === 'string' && e.length);
   const newRecipes = recipies.filter((e) => typeof e === 'string' && e.length);
-  console.log(recommends);
-  console.log(drinks);
   const favorites = () => {
     const getFavorites = JSON.parse(localStorage.getItem('favoriteRecipes'));
     let data = getFavorites;
@@ -88,7 +96,6 @@ function RecipesDrinksDetails(props) {
       localStorage.setItem('favoriteRecipes', JSON.stringify([]));
       data = JSON.parse(localStorage.getItem('favoriteRecipes'));
     }
-    if (data.some((e) => e.id === drinks.idDrink)) setHeart(true);
     if (!data.some((e) => e.id === drinks.idDrink)) {
       const obj = {
         id: drinks.idDrink,
@@ -110,6 +117,7 @@ function RecipesDrinksDetails(props) {
     setHeart(false);
     localStorage.setItem('favoriteRecipes', JSON.stringify(newData));
   };
+
   return (
     <div>
       <div>
@@ -179,12 +187,16 @@ function RecipesDrinksDetails(props) {
       </button>
       <button
         type="button"
-        data-testid="favorite-btn"
         onClick={ !heart ? favorites : disfavor }
       >
-        {!heart ? 'Favorite' : (<img src="../images/whiteHeartIcon.svg" alt="heart" />)}
+        <img
+          src={ !heart ? '../images/whiteHeartIcon.svg' : '../images/blackHeartIcon.svg' }
+          data-testid="favorite-btn"
+          alt="Desfavoritado"
+        />
       </button>
       {sucessCopy && (<p>Link copied!</p>)}
+
       <button
         className={ styles.button }
         data-testid="start-recipe-btn"
@@ -193,6 +205,7 @@ function RecipesDrinksDetails(props) {
         Start Recipe
 
       </button>
+
     </div>
   );
 }

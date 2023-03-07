@@ -1,12 +1,10 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
-function RecipeInProgressDrink(props) {
-  console.log(props);
+function RecipeInProgressDrink() {
   const [drink, setDrink] = useState([]);
-  const { match } = props;
-  const { params } = match;
-  const { id } = params;
+  const { id } = useParams();
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -17,7 +15,6 @@ function RecipeInProgressDrink(props) {
     };
     fetchApi();
   }, []);
-  console.log(drink);
   const recipies = [
     drink.strIngredient1,
     drink.strIngredient2,

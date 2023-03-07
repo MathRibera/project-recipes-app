@@ -1,38 +1,47 @@
 import clipboardCopy from 'clipboard-copy';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import styles from './Carroussel.module.css';
 
-function RecipesMealsDetails(props) {
+function RecipesMealsDetails() {
   const [sucessCopy, setSucessCopy] = useState(false);
   const [heart, setHeart] = useState(false);
   const history = useHistory();
   const [recipe, setRecipe] = useState([]);
   const [recommends, setRecommends] = useState([]);
-  const { match } = props;
-  const {
-    params: { id },
-  } = match;
+  const { id } = useParams();
   const path = history.location.pathname;
 
+  const loadFavorite = () => {
+    const getFavorites = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    let data = getFavorites;
+    if (!getFavorites || getFavorites.length === 0) {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([]));
+      data = [];
+    }
+    setHeart(data.some((e) => e.id === id));
+  };
   useEffect(() => {
     const fetchApi = async () => {
       const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
-      const url2 = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
       const response = await fetch(url);
-      const response2 = await fetch(url2);
       const json = await response.json();
-      const json2 = await response2.json();
-      const six = 6;
       setRecipe(json.meals[0]);
-      setRecommends(json2.drinks.slice(0, six));
-    };
-    const fetchApiDrinks = async () => {
     };
     fetchApi();
-    fetchApiDrinks();
+    loadFavorite();
   }, [id]);
+  useEffect(() => {
+    const fetchAPi = async () => {
+      const url2 = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+      const response2 = await fetch(url2);
+      const json2 = await response2.json();
+      const six = 6;
+      setRecommends(json2.drinks.slice(0, six));
+    };
+    fetchAPi();
+  }, []);
 
   const recipies = [
     recipe.strIngredient1,
@@ -89,13 +98,12 @@ function RecipesMealsDetails(props) {
       localStorage.setItem('favoriteRecipes', JSON.stringify([]));
       data = JSON.parse(localStorage.getItem('favoriteRecipes'));
     }
-    if (data.some((e) => e.id === recipe.idMeal)) setHeart(true);
     if (!data.some((e) => e.id === recipe.idMeal)) {
       const obj = {
         id: recipe.idMeal,
         type: 'meal',
         nationality: recipe.strArea || '',
-        category: recipe.strCategory,
+        category: recipe.strCategory || '',
         alcoholicOrNot: recipe.strAlcoholic || '',
         name: recipe.strMeal,
         image: recipe.strMealThumb,
@@ -176,9 +184,12 @@ function RecipesMealsDetails(props) {
       <button
         onClick={ !heart ? favorites : disfavor }
         type="button"
-        data-testid="favorite-btn"
       >
-        {!heart ? 'Favorite' : (<img src="../images/whiteHeartIcon.svg" alt="" />)}
+        <img
+          src={ !heart ? '../images/whiteHeartIcon.svg' : '../images/blackHeartIcon.svg' }
+          data-testid="favorite-btn"
+          alt="Desfavoritado"
+        />
       </button>
       {sucessCopy && (<p>Link copied!</p>)}
       <button
