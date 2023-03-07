@@ -1,15 +1,17 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-import RecipsCards from '../components/RecipsCards';
+import PrincipalMeals from './PrincipalMeals';
 
 function Recipes() {
   return (
-    <div>
+    <>
       <Header title="Meals" />
-      <RecipsCards />
+      {/* <RecipsCards /> */}
+      <PrincipalMeals />
       <Footer />
-    </div>
+    </>
   );
 }
 
