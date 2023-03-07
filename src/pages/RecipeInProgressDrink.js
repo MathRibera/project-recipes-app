@@ -1,20 +1,20 @@
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import React from 'react';
+// import { useParams } from 'react-router-dom';
 
 function RecipeInProgressDrink() {
-  // const [drink, setDrink] = useState([]);
-  const { id } = useParams();
+  // // const [drink, setDrink] = useState([]);
+  // const { id } = useParams();
 
-  useEffect(() => {
-    const fetchApi = async () => {
-      const url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
-      const response = await fetch(url);
-      const json = await response.json();
-      setDrink(json.drinks[0]);
-    };
-    fetchApi();
-  }, [id]);
+  // useEffect(() => {
+  //   const fetchApi = async () => {
+  //     const url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
+  //     const response = await fetch(url);
+  //     const json = await response.json();
+  //     setDrink(json.drinks[0]);
+  //   };
+  //   fetchApi();
+  // }, [id]);
   // const recipies = [
   //   drink.strIngredient1,
   //   drink.strIngredient2,
