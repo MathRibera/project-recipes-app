@@ -1,12 +1,16 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import styles from './Carroussel.module.css';
 
 function RecipesDrinksDetails(props) {
+  const [sucessCopy, setSucessCopy] = useState(false);
+  const history = useHistory();
   const [drinks, setDrinks] = useState([]);
   const [recommends, setRecommend] = useState([]);
   const { match } = props;
   const { params: { id } } = match;
+  const path = history.location.pathname;
   useEffect(() => {
     const fetchApi = async () => {
       const url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
@@ -132,8 +136,26 @@ function RecipesDrinksDetails(props) {
         ))}
       </div>
       <button
+        type="button"
+        data-testid="share-btn"
+        onClick={ async () => {
+          navigator.clipboard.writeText(`localhost:3000${path}`);
+          setSucessCopy(true);
+        } }
+      >
+        <img src="../images/shareIcon.svg" alt="" />
+      </button>
+      <button
+        type="button"
+        data-testid="favorite-btn"
+      >
+        Favorite
+      </button>
+      {sucessCopy && (<p>Link copied!</p>)}
+      <button
         className={ styles.button }
         data-testid="start-recipe-btn"
+        onClick={ () => history.push(`/drinks/${id}/in-progress`) }
       >
         Start Recipe
 

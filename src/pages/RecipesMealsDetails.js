@@ -1,14 +1,18 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import styles from './Carroussel.module.css';
 
 function RecipesMealsDetails(props) {
+  const [sucessCopy, setSucessCopy] = useState(false);
+  const history = useHistory();
   const [recipe, setRecipe] = useState([]);
   const [recommends, setRecommends] = useState([]);
   const { match } = props;
   const {
     params: { id },
   } = match;
+  const path = history.location.pathname;
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -129,8 +133,26 @@ function RecipesMealsDetails(props) {
       </div>
       <div />
       <button
+        type="button"
+        data-testid="share-btn"
+        onClick={ async () => {
+          navigator.clipboard.writeText(`localhost:3000${path}`);
+          setSucessCopy(true);
+        } }
+      >
+        <img src="../images/shareIcon.svg" alt="" />
+      </button>
+      <button
+        type="button"
+        data-testid="favorite-btn"
+      >
+        Favorite
+      </button>
+      {sucessCopy && (<p>Link copied!</p>)}
+      <button
         className={ styles.button }
         data-testid="start-recipe-btn"
+        onClick={ () => history.push(`/meals/${id}/in-progress`) }
       >
         Start Recipe
 
