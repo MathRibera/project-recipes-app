@@ -71,4 +71,32 @@ describe('end to end basicao', () => {
     userEvent.click(screen.getByTestId(firstLetter));
     userEvent.type(screen.getByTestId(searchInput), 'aa');
   });
+  it('teste mocked', async () => {
+    global.alert = jest.fn();
+    renderWithRouter(<App />);
+    const loginInput = 'login-submit-btn';
+    expect(screen.getByTestId(emailInput));
+    expect(screen.getByTestId(password));
+    expect(screen.getByTestId(loginInput)).toBeDisabled();
+
+    userEvent.type(screen.getByTestId(emailInput), 'test@test.com');
+    expect(screen.getByTestId(loginInput)).toBeDisabled();
+    userEvent.type(screen.getByTestId(password), '1234567');
+    expect(screen.getByTestId(loginInput)).toBeEnabled();
+    userEvent.click(screen.getByTestId(loginInput));
+
+    userEvent.click(screen.getByTestId('search-top-btn'));
+    await waitFor(() => screen.getByTestId('name-search-radio'));
+    userEvent.click(screen.getByTestId('name-search-radio'));
+    userEvent.type(screen.getByTestId('search-input'), 'xablau');
+    userEvent.click(screen.getByTestId('exec-search-btn'));
+    await waitFor(() => expect(global.alert).toHaveBeenCalled());
+    userEvent.click(screen.getByTestId('drinkButton'));
+    userEvent.click(screen.getByTestId('search-top-btn'));
+    await waitFor(() => screen.getByTestId('name-search-radio'));
+    userEvent.click(screen.getByTestId('name-search-radio'));
+    userEvent.type(screen.getByTestId('search-input'), 'xablau');
+    userEvent.click(screen.getByTestId('exec-search-btn'));
+    await waitFor(() => expect(global.alert).toHaveBeenCalled());
+  });
 });
