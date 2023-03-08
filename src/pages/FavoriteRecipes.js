@@ -11,7 +11,9 @@ export default function FavoriteRecipes() {
   const [showDrinks, setShowDrinks] = useState([]);
   const [show, setShow] = useState(false);
   useEffect(() => {
-    const getData = localStorage.getItem('favoriteRecipes');
+    let getData = localStorage.getItem('favoriteRecipes');
+    if (!getData) getData = JSON.stringify([]);
+
     setStateLocal(JSON.parse(getData));
     setShowAll(JSON.parse(getData));
     setShowMeals(JSON.parse(getData).filter((e) => e.type === 'meal'));

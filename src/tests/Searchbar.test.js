@@ -11,6 +11,7 @@ describe('end to end basicao', () => {
   const emailInput = 'email-input';
   const password = 'password-input';
   const searchInput = 'search-input';
+  const searchBarBtn = 'exec-search-btn';
   it('end to end search bar', async () => {
     const { history } = renderWithRouter(<App />);
     const loginInput = 'login-submit-btn';
@@ -26,7 +27,7 @@ describe('end to end basicao', () => {
 
     userEvent.click(screen.getByTestId('button-search'));
     const inputText = screen.getByTestId(searchInput);
-    const buttonSearch = screen.getByTestId('exec-search-btn');
+    const buttonSearch = screen.getByTestId(searchBarBtn);
 
     userEvent.type(inputText, 'potato');
     userEvent.click(buttonSearch);
@@ -57,7 +58,7 @@ describe('end to end basicao', () => {
 
     userEvent.click(screen.getByTestId('drinkButton'));
     userEvent.click(screen.getByTestId('button-search'));
-    const buttonSearch = screen.getByTestId('exec-search-btn');
+    const buttonSearch = screen.getByTestId(searchBarBtn);
     userEvent.type(screen.getByTestId(searchInput), 'lime');
     userEvent.click(buttonSearch);
     await waitFor(() => expect(screen.findByTestId(imageCard)), { interval: 3000 });
