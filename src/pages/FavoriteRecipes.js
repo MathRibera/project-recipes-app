@@ -1,4 +1,6 @@
+import clipboardCopy from 'clipboard-copy';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import Header from '../components/Header';
 
@@ -7,6 +9,7 @@ export default function FavoriteRecipes() {
   const [showAll, setShowAll] = useState([]);
   const [showMeals, setShowMeals] = useState([]);
   const [showDrinks, setShowDrinks] = useState([]);
+  const [show, setShow] = useState(false);
   useEffect(() => {
     const getData = localStorage.getItem('favoriteRecipes');
     setStateLocal(JSON.parse(getData));
@@ -15,6 +18,13 @@ export default function FavoriteRecipes() {
     setShowDrinks(JSON.parse(getData).filter((e) => e.type === 'drink'));
   }, []);
 
+  const unfavorited = (target) => {
+    const newFavorite = stateLocal.filter((e) => e.id !== target.id);
+    setStateLocal(newFavorite);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(newFavorite));
+  };
+
+  console.log(stateLocal);
   return (
     <div>
       <Header title="Favorite Recipes" searchIcon={ false } />
@@ -41,19 +51,39 @@ export default function FavoriteRecipes() {
       <div>
         {stateLocal.map((e, index) => (
           <div key={ e.name }>
-            <img
-              data-testid={ `${index}-horizontal-image` }
-              src={ e.image }
-              alt={ e.name }
-              width="100px"
-            />
-            <h1 data-testid={ `${index}-horizontal-name` }>{e.name}</h1>
-            <h2 data-testid={ `${index}-horizontal-top-text` }>
-              {`${e.nationality} - ${e.category}`}
-            </h2>
-            <button data-testid={ `${index}-horizontal-share-btn` }>Share</button>
-            <button data-testid={ `${index}-horizontal-favorite-btn` }>
-              Favorite
+            <Link to={ `/${e.type}s/${e.id}` }>
+              <img
+                data-testid={ `${index}-horizontal-image` }
+                src={ e.image }
+                alt={ e.name }
+                width="100px"
+              />
+              <h1 data-testid={ `${index}-horizontal-name` }>{e.name}</h1>
+              <h2 data-testid={ `${index}-horizontal-top-text` }>
+                {e.type === 'meal'
+                  ? `${e.nationality} - ${e.category}`
+                  : e.alcoholicOrNot}
+              </h2>
+            </Link>
+            <button
+              onClick={ () => {
+                clipboardCopy(`http://localhost:3000/${e.type}s/${e.id}`);
+                setShow(true);
+              } }
+            >
+              <img
+                data-testid={ `${index}-horizontal-share-btn` }
+                src="../images/shareIcon.svg"
+                alt="share"
+              />
+            </button>
+            {show && <p>Link copied!</p>}
+            <button onClick={ () => unfavorited(e) }>
+              <img
+                data-testid={ `${index}-horizontal-favorite-btn` }
+                src="../images/blackHeartIcon.svg"
+                alt="unfavorite"
+              />
             </button>
           </div>
         ))}
