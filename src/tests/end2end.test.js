@@ -3,9 +3,9 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 import renderWithRouter from './helpers/renderWithRouter';
 import App from '../App';
-import Profile from '../pages/Profile';
 
 describe('end to end cabuloso', () => {
+  const allFilterCategory = 'All-category-filter';
   it('end to end', async () => {
     const alertMock = jest.spyOn(window, 'alert').mockImplementation();
     window.document.execCommand = jest.fn(() => true);
@@ -21,7 +21,7 @@ describe('end to end cabuloso', () => {
     expect(screen.getByTestId('Chicken-category-filter')); // Botao da categoria Chicken
     expect(screen.getByTestId('Dessert-category-filter')); // Botao da categoria Dessert
     expect(screen.getByTestId('Goat-category-filter')); // Botao da categoria Goat
-    expect(screen.getByTestId('All-category-filter')); // Botao de Todas as categoria
+    expect(screen.getByTestId(allFilterCategory)); // Botao de Todas as categoria
 
     const cardName = '0-card-name';
     userEvent.click(screen.getByTestId('Beef-category-filter'));
@@ -34,7 +34,7 @@ describe('end to end cabuloso', () => {
     expect(await screen.findByTestId(cardName));
     userEvent.click(screen.getByTestId('Goat-category-filter'));
     expect(await screen.findByTestId(cardName));
-    userEvent.click(screen.getByTestId('All-category-filter'));
+    userEvent.click(screen.getByTestId(allFilterCategory));
     expect(await screen.findByTestId(cardName));
     // Buscas
     const searchInput = 'search-input'; // barra de pesquisa do searchbar
@@ -61,7 +61,7 @@ describe('end to end cabuloso', () => {
     expect(screen.getByTestId('Shake-category-filter')); // Botao de categoria
     expect(screen.getByTestId('Other / Unknown-category-filter')); // Botao de categoria
     expect(screen.getByTestId('Cocoa-category-filter')); // Botao de categoria
-    expect(screen.getByTestId('All-category-filter')); // Botao de categoria
+    expect(screen.getByTestId(allFilterCategory)); // Botao de categoria
 
     // drinks
     userEvent.click(screen.getByTestId('drinks-bottom-btn')); // Botao do footer para mostrar bebidas
