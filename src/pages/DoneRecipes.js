@@ -35,9 +35,9 @@ export default function DoneRecipes() {
     setRecipes([...JSON.parse(localStorage.getItem('doneRecipes'))]);
   }, []);
 
-  const handleFilterButton = (name) => {
-    const chosenFilter = doneRecipes.filter((recipe) => recipe.type === name);
-    setRecipes(name === 'all' ? doneRecipes : chosenFilter);
+  const handleFilterButton = (type) => {
+    const chosenFilter = doneRecipes.filter((recipe) => recipe.type === type);
+    setRecipes(type === 'all' ? doneRecipes : chosenFilter);
   };
 
   return (
@@ -46,26 +46,22 @@ export default function DoneRecipes() {
       <div>
         <button
           type="button"
-          name="all"
           data-testid="filter-by-all-btn"
-          onClick={ ({ target: { name } }) => handleFilterButton(name) }
+          onClick={ () => handleFilterButton('all') }
         >
           All
         </button>
         <button
           type="button"
-          name="meal"
           data-testid="filter-by-meal-btn"
-          onClick={ ({ target: { name } }) => handleFilterButton(name) }
-
+          onClick={ () => handleFilterButton('meal') }
         >
           Meals
         </button>
         <button
           type="button"
-          name="drink"
           data-testid="filter-by-drink-btn"
-          onClick={ ({ target: { name } }) => handleFilterButton(name) }
+          onClick={ () => handleFilterButton('drink') }
         >
           Drinks
         </button>
