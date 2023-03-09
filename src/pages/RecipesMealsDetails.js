@@ -2,6 +2,11 @@ import clipboardCopy from 'clipboard-copy';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
+
+import shareIcon from '../assets/shareIcon.svg';
+import whiteHeartIcon from '../assets/whiteHeartIcon.svg';
+import blackHeartIcon from '../assets/blackHeartIcon.svg';
+
 import styles from './Carroussel.module.css';
 
 function RecipesMealsDetails() {
@@ -179,14 +184,14 @@ function RecipesMealsDetails() {
           setSucessCopy(true);
         } }
       >
-        <img src="../images/shareIcon.svg" alt="" />
+        <img src={ shareIcon } alt="" />
       </button>
       <button
         onClick={ !heart ? favorites : disfavor }
         type="button"
       >
         <img
-          src={ !heart ? '../images/whiteHeartIcon.svg' : '../images/blackHeartIcon.svg' }
+          src={ !heart ? whiteHeartIcon : blackHeartIcon }
           data-testid="favorite-btn"
           alt="Desfavoritado"
         />

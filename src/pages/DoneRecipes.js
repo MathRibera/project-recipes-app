@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import Header from '../components/Header';
-import shareIcon from '../assets/shareIcon.svg';
+import DoneRecipeCard from '../components/DoneRecipeCard';
 
 export default function DoneRecipes() {
   const [doneRecipes, setDoneRecipes] = useState([]);
-  const [wasCopied, setWasCopied] = useState(false);
+  const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
     localStorage.setItem('doneRecipes', JSON.stringify([
@@ -33,15 +32,13 @@ export default function DoneRecipes() {
       },
     ]));
     setDoneRecipes([...JSON.parse(localStorage.getItem('doneRecipes'))]);
+    setRecipes([...JSON.parse(localStorage.getItem('doneRecipes'))]);
   }, []);
 
-  function handleClick({ type, id }) {
-    setWasCopied(true);
-    const link = navigator.clipboard
-      .writeText(`${window.location.origin}/${type}s/${id}`);
-
-    return link;
-  }
+  const handleFilterButton = (name) => {
+    const chosenFilter = doneRecipes.filter((recipe) => recipe.type === name);
+    setRecipes(name === 'all' ? doneRecipes : chosenFilter);
+  };
 
   return (
     <div>
@@ -49,81 +46,37 @@ export default function DoneRecipes() {
       <div>
         <button
           type="button"
+          name="all"
           data-testid="filter-by-all-btn"
+          onClick={ ({ target: { name } }) => handleFilterButton(name) }
         >
           All
         </button>
         <button
           type="button"
+          name="meal"
           data-testid="filter-by-meal-btn"
+          onClick={ ({ target: { name } }) => handleFilterButton(name) }
 
         >
           Meals
         </button>
         <button
           type="button"
+          name="drink"
           data-testid="filter-by-drink-btn"
-
+          onClick={ ({ target: { name } }) => handleFilterButton(name) }
         >
           Drinks
         </button>
       </div>
       <div>
-        { doneRecipes.map((recipe, index) => (
-          <div key={ index }>
-            <Link
-              to={ `/${recipe.type}s/${recipe.id}` }
-              data-testid={ `${index}-horizontal-name` }
-            >
-              <h3>
-                {recipe.name}
-              </h3>
-            </Link>
-            <h5
-              data-testid={ `${index}-horizontal-top-text` }
-            >
-              { `${recipe.nationality} - ${recipe.category}-${recipe.alcoholicOrNot}` }
-            </h5>
-            <p />
-
-            <Link
-              to={ `${recipe.type}s/${recipe.id}` }
-            >
-              <img
-                data-testid={ `${index}-horizontal-image` }
-                src={ recipe.image }
-                alt={ recipe.name }
-              />
-            </Link>
-            <div>
-              { recipe.tags.map((tag, i) => (
-                <div
-                  key={ i }
-                  data-testid={ `0-${tag}-horizontal-tag` }
-                >
-                  {tag}
-                </div>
-              ))}
-            </div>
-            <p
-              data-testid={ `${index}-horizontal-done-date` }
-            >
-              { recipe.doneDate }
-
-            </p>
-            { wasCopied ? (<p>Link copied!</p>) : (
-              <button
-                type="button"
-                data-testid={ `${index}-horizontal-share-btn` }
-                onClick={ () => handleClick(recipe) }
-                src={ shareIcon }
-              >
-                Share
-
-                <img src={ shareIcon } alt="share icon" />
-              </button>)}
-
-          </div>
+        { recipes.map((recipe, index) => (
+          <DoneRecipeCard
+            key={ recipe.id }
+            recipe={ recipe }
+            index={ index }
+          />
         ))}
       </div>
     </div>

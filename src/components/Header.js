@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import SearchBar from './SearchBar';
+import profileIcon from '../assets/profileIcon.svg';
 
 export default function Header({ title, searchIcon = true }) {
   const history = useHistory();
@@ -24,7 +25,7 @@ export default function Header({ title, searchIcon = true }) {
       >
         <img
           data-testid="profile-top-btn"
-          src="./images/profileIcon.svg"
+          src={ profileIcon }
           alt="ícone de perfil"
         />
       </button>
