@@ -2,7 +2,7 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { screen } from '@testing-library/react';
 import renderWithRouter from './helpers/renderWithRouter';
-import Login from '../pages/Login';
+import Login from '../pages/Login/Login';
 
 describe('PAgina de Login', () => {
   it('End to end', () => {
