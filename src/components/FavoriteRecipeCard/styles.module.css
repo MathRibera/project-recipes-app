@@ -1,0 +1,57 @@
+.card {
+  display: flex;
+  width: 31.8rem;
+  height: 13.5rem;
+  border-radius: 5px;
+  border: solid var(--gray-border) 0.52px;
+  margin: 0 2rem;
+}
+
+.h4 {
+  line-height: 1.23rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+  width: 11rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.p {
+  font-size: 0.9rem;
+  display: flex;
+  gap: 0.4rem;
+}
+
+.right {
+  width: 16.3rem;
+  height: 13.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  padding: 2rem 0 1.87rem 0;
+}
+
+.favBtns {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.cardImg {
+  width: 16.3rem;
+  height: 13.4rem;
+  border-radius: 5px 0 0 5px;
+}
+
+.toasty {
+  position: absolute;
+  top: 0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border-radius: 20px;
+  padding: 0.5rem 0.8rem;
+}

@@ -1,0 +1,21 @@
+.main {
+  margin-bottom: calc(var(--footer-height) + 2rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  padding: 3.7rem 3rem;
+}
+
+.button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.9rem;
+  gap: 1rem;
+}

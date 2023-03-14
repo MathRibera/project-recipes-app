@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes, { string } from 'prop-types';
 import shareIcon from '../../assets/shareIcon.svg';
+import styles from './styles.module.css';
 
 function DoneRecipeCard({ recipe, index }) {
   const [wasCopied, setWasCopied] = useState(false);
@@ -20,62 +21,67 @@ function DoneRecipeCard({ recipe, index }) {
   }
 
   return (
-    <div key={ recipe.id }>
-      <Link
-        to={ `/${recipe.type}s/${recipe.id}` }
-        data-testid={ `${index}-horizontal-name` }
-      >
-        <h3>
-          {recipe.name}
-        </h3>
-      </Link>
-      <h5
-        data-testid={ `${index}-horizontal-top-text` }
-      >
-        { `${recipe.nationality} - ${recipe.category} - ${recipe.alcoholicOrNot}` }
-      </h5>
-      <p />
-
-      <Link
-        to={ `${recipe.type}s/${recipe.id}` }
-      >
-        <img
-          data-testid={ `${index}-horizontal-image` }
-          src={ recipe.image }
-          alt={ recipe.name }
-          style={ { width: '100%' } }
-        />
-      </Link>
-      <div>
-        { recipe.tags.map((tag, i) => (
-          <div
-            key={ i }
-            data-testid={ `0-${tag}-horizontal-tag` }
-          >
-            {tag}
-          </div>
-        ))}
+    <div key={ recipe.id } className={ styles.card }>
+      <div className={ styles.left }>
+        <Link
+          to={ `${recipe.type}s/${recipe.id}` }
+        >
+          <img
+            className={ styles.recipeImg }
+            data-testid={ `${index}-horizontal-image` }
+            src={ recipe.image }
+            alt={ recipe.name }
+          />
+        </Link>
       </div>
-      <p
-        data-testid={ `${index}-horizontal-done-date` }
-      >
-        { recipe.doneDate }
-
-      </p>
-      <button
-        type="button"
-        data-testid={ `${index}-horizontal-share-btn` }
-        onClick={ () => handleClick(recipe) }
-        src={ shareIcon }
-      >
-        { wasCopied ? 'Link copied!' : (
-          <>
-            Share
-            <img src={ shareIcon } alt="share icon" />
-          </>
-        )}
-      </button>
-
+      <div className={ styles.right }>
+        <div className={ styles.description }>
+          <Link
+            to={ `/${recipe.type}s/${recipe.id}` }
+            data-testid={ `${index}-horizontal-name` }
+          >
+            <h4 className={ styles.h4 }>
+              {recipe.name}
+            </h4>
+          </Link>
+          <button
+            type="button"
+            data-testid={ `${index}-horizontal-share-btn` }
+            onClick={ () => handleClick(recipe) }
+            src={ shareIcon }
+            className={ styles.share }
+          >
+            { wasCopied ? 'Link copied!' : (
+              <img src={ shareIcon } alt="share icon" />
+            )}
+          </button>
+          <p
+            className={ styles.p }
+            data-testid={ `${index}-horizontal-top-text` }
+          >
+            { `${recipe.nationality} • ${recipe.category} • ${recipe.alcoholicOrNot}` }
+          </p>
+          <p
+            data-testid={ `${index}-horizontal-done-date` }
+            className={ styles.p }
+          >
+            Done in:
+            {' '}
+            { recipe.doneDate }
+          </p>
+          <div className={ styles.p }>
+            { recipe.tags.map((tag, i) => (
+              <div
+                key={ i }
+                data-testid={ `0-${tag}-horizontal-tag` }
+                className={ styles.tag }
+              >
+                {tag}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

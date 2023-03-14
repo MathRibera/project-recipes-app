@@ -1,0 +1,61 @@
+.h4 {
+    line-height: 1.23rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+    width: 8.6rem;
+}
+
+.card {
+    display: flex;
+    border: solid red 1px;
+    width: 31.8rem;
+    height: 13.5rem;
+    border-radius: 5px;
+    border: solid var(--gray-border) 0.52px;
+}
+
+.recipeImg {
+    width: 16.3rem;
+    height: 13.4rem;
+    border-radius: 5px 0 0 5px;
+}
+
+.description {
+    width: 9rem;
+    height: 13.5rem;
+    padding: 1.5rem 0 0;
+}
+
+.right {
+    width: 16.3rem;
+    height: 13.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-right: 3rem;
+}
+
+.p {
+    font-size: 0.9rem;
+    display: flex;
+    gap: 0.4rem;
+}
+
+.tag {
+    margin-top: 1.5rem;
+    background: #D9D9D9;
+    border-radius: 10px;
+    height: 1.4rem;
+    width: fit-content;
+    padding: 0.3rem 0.6rem;
+    display: flex;
+    align-items: center;
+}
+
+.share {
+    position: absolute;
+    top: 1rem;
+    right: -1.6rem;
+}

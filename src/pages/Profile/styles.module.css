@@ -1,0 +1,33 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 4.1rem;
+    gap: 4rem;
+}
+
+.p {
+    font-weight: bold;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    width: 29rem;
+    padding: 0 2.8rem;
+}
+
+.button {
+    height: 8.4rem;
+    width: 21.7rem;
+    display: flex;
+    align-items: center;
+    font-size: 1.6rem;
+    line-height: 1.64rem;
+    gap: 2.2rem;
+    color: #797D86;
+}
+
+.hr {
+    width: 100%;
+}

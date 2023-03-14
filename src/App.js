@@ -1,26 +1,25 @@
 import React from 'react';
-import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Route, Switch } from 'react-router-dom';
-import Login from './pages/Login';
-import Recipes from './pages/Recipes';
-import Profile from './pages/Profile';
-import Drinks from './pages/Drinks';
+import Login from './pages/Login/Login';
+import Meals from './pages/Meals/Meals';
+import Profile from './pages/Profile/Profile';
+import Drinks from './pages/Drinks/Drinks';
 
-import DoneRecipes from './pages/DoneRecipes';
-import FavoriteRecipes from './pages/FavoriteRecipes';
+import DoneRecipes from './pages/DoneRecipes/DoneRecipes';
+import FavoriteRecipes from './pages/FavoriteRecipes/FavoriteRecipes';
 import MyProvider from './context/MyProvider';
-import RecipesMealsDetails from './pages/RecipesMealsDetails';
-import RecipesDrinksDetails from './pages/RecipesDrinksDetails';
-import RecipeInProgressMeal from './pages/RecipeInProgressMeal';
-import RecipeInProgressDrink from './pages/RecipeInProgressDrink';
+import RecipesMealsDetails from './pages/RecipeDetails/RecipesMealsDetails';
+import RecipesDrinksDetails from './pages/RecipeDetails/RecipesDrinksDetails';
+import RecipeInProgressMeal from './pages/RecipesInProgress/RecipeInProgressMeal';
+import RecipeInProgressDrink from './pages/RecipesInProgress/RecipeInProgressDrink';
 
 function App() {
   return (
     <MyProvider>
       <Switch>
         <Route exact path="/" component={ Login } />
-        <Route exact path="/meals" component={ Recipes } />
+        <Route exact path="/meals" component={ Meals } />
         <Route exact path="/drinks" component={ Drinks } />
         <Route path="/meals/:id/in-progress" component={ RecipeInProgressMeal } />
         <Route path="/drinks/:id/in-progress" component={ RecipeInProgressDrink } />

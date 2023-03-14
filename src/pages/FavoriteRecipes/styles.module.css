@@ -1,0 +1,23 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: calc(var(--footer-height) + 1rem);
+
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  padding: 3.7rem 3rem;
+}
+
+.button {
+  color: #797D86;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.9rem;
+  gap: 1.5rem;
+}
